@@ -25,16 +25,22 @@ class S:
         subject_rules = ["subject", "psubject", "esubject"]
         subject_rule = random.choice(subject_rules)
         if subject_rule == "subject":
-            return Subject.generate(Subject())
+            ss = Subject.generate(Subject())
+            # print "subkjct is " + ss
+            return ss
         elif subject_rule == "psubject":
-            return PluralSubject.generate(PluralSubject())
+            ss = PluralSubject.generate(PluralSubject())
+            # print " psug " + ss
+            return ss
         elif subject_rule == "esubject":
-            return ExistentialSubject.generate(ExistentialSubject())
+            ss = ExistentialSubject.generate(ExistentialSubject())
+            # print "esubjject " + ss
+            return ss
 
 
 class Subject:
     def generate(self):
-        return Determiner.generate(Determiner()) + Adjective.generate(Adjective()) + Noun.generate(Noun())
+        return Determiner.generate(Determiner()) +" " +  Adjective.generate(Adjective()) +" " +  Noun.generate(Noun())
 
 
 class PluralSubject:
