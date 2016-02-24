@@ -1,23 +1,23 @@
 import sys
 import random
 
-helpingVerbs = None
-intransitiveVerbs = None
-transitiveVerbs = None
-adjectives = None
-adverbs = None
-determiners = None
-linkingVerbs = None
-nouns = None
-pluralDeterminers = None
-pluralNouns = None
-prepositions = None
+helpingVerbs = []
+intransitiveVerbs = []
+transitiveVerbs = []
+adjectives = []
+adverbs = []
+determiners = []
+linkingVerbs = []
+nouns = []
+pluralDeterminers = []
+pluralNouns = []
+prepositions = []
 
 
 class Sentence:
     def generate(self):
         preposition = False
-        return S.generate(S()) + V.generate(V(), preposition)   +  O.generate(O(), preposition) +  "."
+        return S.generate(S()) + " " + V.generate(V(), preposition) + " " + O.generate(O(), preposition) + "."
 
 
 class S:
@@ -40,7 +40,9 @@ class S:
 
 class Subject:
     def generate(self):
-        return Determiner.generate(Determiner()) +" " +  Adjective.generate(Adjective()) +" " +  Noun.generate(Noun())
+        ss = Determiner.generate(Determiner()) + " " + Adjective.generate(Adjective()) + " " + Noun.generate(Noun())
+        # print ss
+        return ss
 
 
 class PluralSubject:
@@ -60,10 +62,12 @@ class ExistentialSubject:
         esubject_rule = random.choice(esubject_rules)
         if esubject_rule == "1":
             return random.choice(["here",
-                                  "there"])  + " " + random.choice(["is", TransVerb.generate(TransVerb())]) + " " + Subject.generate(Subject()) + " that"
+                                  "there"]) + " " + random.choice(["is", TransVerb.generate(TransVerb())]) + " " + \
+                   Subject.generate(Subject()) + " that"
         elif esubject_rule == "2":
             return random.choice(["here",
-                                  "there"])  + " " + random.choice(["are", TransVerb.generate(TransVerb())]) + " " + PluralSubject.generate(PluralSubject()) + " that"
+                                  "there"]) + " " + random.choice(["are", TransVerb.generate(TransVerb())]) + " " + \
+                   PluralSubject.generate(PluralSubject()) + " that"
 
 
 class Noun:
@@ -71,7 +75,9 @@ class Noun:
         rules = ["n", "nn"]
         rule = random.choice(rules)
         if rule == "n":
-            return random.choice(nouns)
+            ss = random.choice(nouns)
+            # print ss + " thats a noun"
+            return ss
         elif rule == "nn":
             return random.choice(nouns) + " " + random.choice(nouns)
 
@@ -174,12 +180,14 @@ class Adjective:
         elif rule == "4":
             return random.choice(adverbs) + " " + random.choice(adjectives) + " " + random.choice(adjectives)
         elif rule == "5":
-            return " NULL ADJECTIVE HIT "
+            return ""
 
 
 class Determiner:
     def generate(self):
-        return random.choice(determiners)
+        ss = random.choice(determiners)
+        # print "DET IS: " + ss
+        return ss
 
 
 class PluralDeterminer:
@@ -210,38 +218,92 @@ class Object:
 
 
 def main():
-    print "Hello World"
+    # print "Hello World"
     global helpingVerbs
-    helpingVerbs = [line.rstrip('\n') for line in open('helpingVerbs.txt')]
+    with open('helpingVerbs.txt', 'r') as handle:
+        for lineHV in handle:
+            lineHV = lineHV.strip()
+            helpingVerbs.append(lineHV)
+    # helpingVerbs = [line.rstrip('\n') for line in open('helpingVerbs.txt')]
     global intransitiveVerbs
-    intransitiveVerbs = [line.rstrip('\n') for line in open('intransitiveVerbs.txt')]
+    with open('intransitiveVerbs.txt', 'r') as handle:
+        for lineITV in handle:
+            lineITV = lineITV.strip()
+            intransitiveVerbs.append(lineITV)
+    # intransitiveVerbs = [line.rstrip('\n') for line in open('intransitiveVerbs.txt')]
     global transitiveVerbs
-    transitiveVerbs = [line.rstrip('\n') for line in open('transitiveVerbs.txt')]
+    with open('transitiveVerbs.txt', 'r') as handle:
+        for lineTV in handle:
+            lineTV = lineTV.strip()
+            transitiveVerbs.append(lineTV)
+    # transitiveVerbs = [line.rstrip('\n') for line in open('transitiveVerbs.txt')]
     global adjectives
-    adjectives = [line.rstrip('\n') for line in open('adjectives.txt')]
+    with open('adjectives.txt', 'r') as handle:
+        for lineaj in handle:
+            lineaj = lineaj.strip()
+            adjectives.append(lineaj)
+    # adjectives = [line.rstrip('\n') for line in open('adjectives.txt')]
     global adverbs
-    adverbs = [line.rstrip('\n') for line in open('adverbs.txt')]
+    with open('adverbs.txt', 'r') as handle:
+        for linead in handle:
+            linead = linead.strip()
+            adverbs.append(linead)
+    # adverbs = [line.rstrip('\n') for line in open('adverbs.txt')]
     global determiners
-    determiners = [line.rstrip('\n') for line in open('determiners.txt')]
+    with open('determiners.txt', 'r') as handle:
+        for lineDet in handle:
+            lineDet = lineDet.strip()
+            determiners.append(lineDet)
+    # determiners = [line.rstrip('\n') for line in open('determiners.txt')]
     global linkingVerbs
-    linkingVerbs = [line.rstrip('\n') for line in open('linkingVerbs.txt')]
-    global nouns
-    nouns = [line.rstrip('\n') for line in open('nouns.txt')]
-    global pluralDeterminers
-    pluralDeterminers = [line.rstrip('\n') for line in open('pluralDeterminers.txt')]
-    global pluralNouns
-    pluralNouns = [line.rstrip('\n') for line in open('pluralNouns.txt')]
-    global prepositions
-    prepositions = [line.rstrip('\n') for line in open('prepositions.txt')]
+    with open('linkingVerbs.txt', 'r') as handle:
+        for lineVERB in handle:
+            lineVERB = lineVERB.strip()
+            linkingVerbs.append(lineVERB)
 
-    picking = True
-    listsDictionary = {"helpingVerbs": helpingVerbs, "intransitiveVerbs": intransitiveVerbs,
-                       "transitiveVerbs": transitiveVerbs,
-                       "adjectives": adjectives, "adverbs": adverbs, "determiners": determiners,
-                       "linkingVerbs": linkingVerbs,
-                       "nouns": nouns, "pluralDeterminers": pluralDeterminers, "pluralNouns": pluralNouns,
-                       "prepositions": prepositions,
-                       }
+    # linkingVerbs = [line.rstrip('\n') for line in open('linkingVerbs.txt')]
+    global nouns
+    with open('nouns.txt', 'r') as handle:
+        for lineN in handle:
+            lineN = lineN.strip()
+            nouns.append(lineN)
+
+        # print " ded " + line
+
+    global pluralDeterminers
+    with open('pluralDeterminers.txt', 'r') as handle:
+        for linepD in handle:
+            linepD = linepD.strip()
+            pluralDeterminers.append(linepD)
+
+        # print line
+    # pluralDeterminers = [line.rstrip('\n') for line in open('pluralDeterminers.txt')]
+
+    global pluralNouns
+    with open('pluralNouns.txt', 'r') as handle:
+        for linePN in handle:
+            linePN = linePN.strip()
+            pluralNouns.append(linePN)
+
+    # pluralNouns = [line.rstrip('\n') for line in open('pluralNouns.txt')]
+    global prepositions
+    with open('prepositions.txt', 'r') as handle:
+        for linePrep in handle:
+            linePrep = linePrep.strip()
+            prepositions.append(linePrep)
+    # prepositions = [line.rstrip('\n') for line in open('prepositions.txt')]
+
+
+    # print pluralNouns
+
+    # picking = True
+    # listsDictionary = {"helpingVerbs": helpingVerbs, "intransitiveVerbs": intransitiveVerbs,
+    #                    "transitiveVerbs": transitiveVerbs,
+    #                    "adjectives": adjectives, "adverbs": adverbs, "determiners": determiners,
+    #                    "linkingVerbs": linkingVerbs,
+    #                    "nouns": nouns, "pluralDeterminers": pluralDeterminers, "pluralNouns": pluralNouns,
+    #                    "prepositions": prepositions,
+    #                    }
 
     print Sentence.generate(Sentence())
     # while(picking):
