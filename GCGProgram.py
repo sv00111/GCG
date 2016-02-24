@@ -17,7 +17,7 @@ prepositions = None
 class Sentence:
     def generate(self):
         preposition = False
-        return S.generate(S()) + V.generate(V(), preposition)  # +  O.generate(preposition) + -# "."
+        return S.generate(S()) + V.generate(V(), preposition)   +  O.generate(O(), preposition) +  "."
 
 
 class S:
@@ -60,10 +60,10 @@ class ExistentialSubject:
         esubject_rule = random.choice(esubject_rules)
         if esubject_rule == "1":
             return random.choice(["here",
-                                  "there"])  # + " " + random.choice(["is", Verb.generate()] + " " + Subject.generate()) + " that"
+                                  "there"])  + " " + random.choice(["is", TransVerb.generate(TransVerb())]) + " " + Subject.generate(Subject()) + " that"
         elif esubject_rule == "2":
             return random.choice(["here",
-                                  "there"])  # + " " + random.choice(["are", Verb.generate()] + " " + PluralSubject.generate()) + " that"
+                                  "there"])  + " " + random.choice(["are", TransVerb.generate(TransVerb())]) + " " + PluralSubject.generate(PluralSubject()) + " that"
 
 
 class Noun:
@@ -91,7 +91,7 @@ class V:
         rules = ["TV", "IV", "LV", "HV_V"]
         rule = random.choice(rules)
         preposition = random.choice([True, False])
-        pstr = " "
+        pstr = ""
         if preposition:
             pstr = " " + Preposition.generate(Preposition())
         if (rule == "TV"):
@@ -174,7 +174,7 @@ class Adjective:
         elif rule == "4":
             return random.choice(adverbs) + " " + random.choice(adjectives) + " " + random.choice(adjectives)
         elif rule == "5":
-            return ""
+            return " NULL ADJECTIVE HIT "
 
 
 class Determiner:
@@ -185,6 +185,28 @@ class Determiner:
 class PluralDeterminer:
     def generate(self):
         return random.choice(pluralDeterminers)
+
+
+class O:
+    def generate(self, preposition):
+        if preposition == True:
+            return Object.generate(Object())
+        else:
+            rules = ["1", "2"]
+            rule = random.choice(rules)
+            if rule == "1":
+                return Object.generate(Object())
+            elif rule == "2":
+                return " "
+
+class Object:
+    def generate(self):
+        rules = ["1", "2"]
+        rule = random.choice(rules)
+        if rule == "1":
+            return Subject.generate(Subject())
+        elif rule == "2":
+            return PluralSubject.generate(PluralSubject())
 
 
 def main():
