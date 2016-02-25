@@ -54,7 +54,7 @@ organizations
 analyses
 policies
 series
-thoughts	
+thoughts
 bases
 boyfriends
 directions
@@ -160,7 +160,7 @@ estates
 foundations
 grandmothers
 hearts
-perspectives	
+perspectives
 photos
 recipes
 studios
@@ -439,5 +439,5 @@ sympathies
 tales
 throats
 trainers
-uncles	
+uncles
 youths
