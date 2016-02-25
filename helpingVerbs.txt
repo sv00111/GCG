@@ -13,6 +13,7 @@ may
 must
 might
 can
+cannot
 could
 would
 should
