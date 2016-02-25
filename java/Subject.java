@@ -2,11 +2,11 @@ import java.util.*;
 
 public class Subject {
 
-	public String[] rules = { "S", "PS", "EXS" };
-
 	public Random rand = new Random();
 	public Determiner det = new Determiner();
 	public Adjective adj = new Adjective();
+	public Adverb adv = new Adverb();
+
 	public Noun noun = new Noun();
 
 
@@ -21,7 +21,8 @@ public class Subject {
 		String rule = "S";
 		switch(rule) {
 			case "S":
-				str = det.generate() + " " + adj.generate() + " " + noun.generate();
+				//det+Adverb+Adjective+Adjective+Noun
+				str = det.generate() + " " + adv.generate() + " " + adj.generate() + " " + adj.generate() + " " + noun.generate(); 
 				break;
 			case "PS":
 				//Adjective + PlNoun | pdet + Adjective + PlNoun
@@ -31,8 +32,12 @@ public class Subject {
 			case "EXS":
 				//(“here” / “there”) + (“is” / Verb) + Subject + “that” 
 				// | (“here” / “there”) + (“are” / Verb) + PlSubject + “that”
-
 				System.out.println("EXS");
+				break;
+			case "PEXS":
+					//PlExSubject+PlVerb+[Object]
+
+				System.out.println("PEXS");
 				break;
 
 		

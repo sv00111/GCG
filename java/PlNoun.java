@@ -1,12 +1,13 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 
-public class Adjective {
+public class PlNoun {
 	
 	ArrayList<String> rules = new ArrayList<>(Arrays.asList("1", "2"));
 
 	public Random rand = new Random();
-	public Adverb adv = new Adverb();
-
+	
 
 	public String pick(ArrayList<String> words)  {
     	String word = words.get(rand.nextInt(words.size()));
@@ -19,10 +20,10 @@ public class Adjective {
 
 		switch(rule) {
 			case "1":
-				str = pick(GCG.adjList);
+				str = pick(GCG.plnounList);
 				break;
 			case "2":
-				str = "";
+				str = pick(GCG.nounList) + " " + pick(GCG.plnounList);
 				break;
 		
 		}
