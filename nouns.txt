@@ -64,8 +64,8 @@ organization
 equipment
 physics
 analysis
-policy	
-series	
+policy
+series
 thought
 basis
 boyfriend
@@ -292,7 +292,7 @@ extent
 feedback
 guitar
 homework
-leader	
+leader
 mom
 outcome
 permission
