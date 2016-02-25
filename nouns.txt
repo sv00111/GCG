@@ -66,7 +66,7 @@ physics
 analysis
 policy	
 series	
-thought	
+thought
 basis
 boyfriend
 direction
@@ -184,7 +184,7 @@ estate
 foundation
 grandmother
 heart
-perspective	
+perspective
 photo
 recipe
 studio
@@ -465,5 +465,5 @@ sympathy
 tale
 throat
 trainer
-uncle	
+uncle
 youth
