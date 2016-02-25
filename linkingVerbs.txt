@@ -8,8 +8,6 @@ was being
 were
 has
 has been
-have been
-will have been
 had been
 are being
 might have been
@@ -17,14 +15,11 @@ become
 becomes
 became
 has become
-have become
 had become
 will become
-will have become
 seemed
 seeming
 seems
 has seemed
-have seemed
 had seemed
 will seem
