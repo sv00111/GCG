@@ -1,5 +1,6 @@
 import sys
 import random
+import string
 
 adjectives = []
 adverbs = []
@@ -24,13 +25,13 @@ class Sentence:
         sentence_rules = ["1", "2", "3", "4"]
         sentence_rule = random.choice(sentence_rules)
         if(sentence_rule == "1"):
-            return Subject.generate(Subject()) + Verb.generate(Verb(), preposition) + Object.generate(Object(), preposition) + "."
+            return Subject.generate(Subject()) + Verb.generate(Verb(), preposition) + Object.generate(Object(), preposition)
         elif(sentence_rule == "2"):
-            return PlSubject.generate(PlSubject()) + PlVerb.generate(PlVerb(), preposition) + Object.generate(Object(), preposition) + "."
+            return PlSubject.generate(PlSubject()) + PlVerb.generate(PlVerb(), preposition) + Object.generate(Object(), preposition)
         elif(sentence_rule == "3"):
-            return ExSubject.generate(ExSubject(), preposition) + Verb.generate(Verb(), preposition) + Object.generate(Object(), preposition) + "."
+            return ExSubject.generate(ExSubject(), preposition) + Verb.generate(Verb(), preposition) + Object.generate(Object(), preposition)
         elif(sentence_rule == "4"):
-            return PlExSubject.generate(PlExSubject(), preposition) + PlVerb.generate(PlVerb(), preposition) + Object.generate(Object(), preposition) + "."
+            return PlExSubject.generate(PlExSubject(), preposition) + PlVerb.generate(PlVerb(), preposition) + Object.generate(Object(), preposition)
 
 
 class Object:
@@ -87,32 +88,55 @@ class PlVerb:
 
 class Subject:
     def generate(self):
-        return random.choice(determiners) + " " + Adverb.generate(Adverb()) + Adjective.generate(Adjective()) + Adjective.generate(Adjective()) + Noun.generate(Noun())
+        rules = ["1", "2", "3", "4"]
+        rule = random.choice(rules)
+        if rule == "1":
+            return random.choice(determiners) + " " + random.choice(adverbs) + " " + random.choice(adjectives) + " " + random.choice(adjectives) + " " + Noun.generate(Noun())
+        elif (rule == "2"):
+            return random.choice(determiners) + " " + random.choice(adverbs) + " " + random.choice(adjectives) + " " + Noun.generate(Noun())
+        elif (rule == "3"):
+            return random.choice(determiners) + " " + Noun.generate(Noun())
+        elif (rule == "4"):
+            return random.choice(determiners) + " " + Adjective.generate(Adjective()) + Adjective.generate(Adjective()) + " " + Noun.generate(Noun())
+
+        # //det+adverb+adjective+adjective+Noun | det+Noun | det+adverb+adjective+Noun
 
 class PlSubject:
     def generate(self):
-        rules = ["1", "2"]
+        rules = ["1", "2", "3", "4", "5", "6","7","8"]
         rule = random.choice(rules)
         if rule == "1":
-            return random.choice(pluralDeterminers) + " " + Adverb.generate(Adverb()) + Adjective.generate(Adjective()) + Adjective.generate(Adjective()) + PlNoun.generate(PlNoun())
+            return random.choice(pluralDeterminers) + " " + random.choice(adverbs) + " " + random.choice(adjectives) + " " + random.choice(adjectives) + " " + PlNoun.generate(PlNoun())
         elif rule == "2":
-            return Adverb.generate(Adverb()) + Adjective.generate(Adjective()) + Adjective.generate(Adjective()) + PlNoun.generate(PlNoun())
+            return random.choice(pluralDeterminers) + " " + random.choice(adverbs) + " " + random.choice(adjectives) + " " + PlNoun.generate(PlNoun())
+        elif (rule == "3"):
+            return random.choice(pluralDeterminers) + " " + PlNoun.generate(PlNoun())
+        elif rule == "4":
+            return random.choice(adverbs) + " " + random.choice(adjectives) + " " + random.choice(adjectives) + " " + PlNoun.generate(PlNoun())
+        elif rule == "5":
+            return random.choice(adverbs) + " " + random.choice(adjectives) + " " + PlNoun.generate(PlNoun())
+        elif (rule == "6"):
+            return PlNoun.generate(PlNoun())
+        elif (rule == "7"):
+            return random.choice(pluralDeterminers) + " " + Adjective.generate(Adjective()) + Adjective.generate(Adjective()) + " " + PlNoun.generate(PlNoun())
+        elif (rule == "8"):
+            return Adjective.generate(Adjective()) + Adjective.generate(Adjective()) + " " + Noun.generate(Noun())
+
+
 
 class ExSubject:
     def generate(self, preposition):
         hereThere = ["here ", "there "]
-        isTverb = ["is ", TVerb.generate(TVerb(), preposition)]
+        isSentence = "is "
         hereThereChoice = random.choice(hereThere)
-        isTverbChoice = random.choice(isTverb)
-        return hereThereChoice + isTverbChoice + Subject.generate(Subject()) + "that "
+        return hereThereChoice + isSentence + Subject.generate(Subject()) + "that "
 
 class PlExSubject:
     def generate(self, preposition):
         hereThere = ["here ", "there "]
-        isTverb = ["is ", PlTVerb.generate(PlTVerb(), preposition)]
+        are = "are "
         hereThereChoice = random.choice(hereThere)
-        isTverbChoice = random.choice(isTverb)
-        return hereThereChoice + isTverbChoice + PlSubject.generate(PlSubject()) + "that "
+        return hereThereChoice + are + PlSubject.generate(PlSubject()) + "that "
 
 class Noun:
     def generate(self):
@@ -128,7 +152,7 @@ class PlNoun:
         rules = ["1","2"]
         rule = random.choice(rules)
         if rule == "1":
-            return random.choice(pluralNouns) + " " + random.choice(pluralNouns) + " "
+            return random.choice(nouns) + " " + random.choice(pluralNouns) + " "
         elif rule == "2":
             return random.choice(pluralNouns) + " "
 
@@ -144,10 +168,12 @@ class PlTVerb:
 
 class IVerb:
     def generate(self, preposition):
+        preposition = False
         return Adverb.generate(Adverb()) + random.choice(intransitiveVerbs) + " " + Prep.generate(Prep(), preposition)
 
 class PlIVerb:
     def generate(self, preposition):
+        preposition = False
         return Adverb.generate(Adverb()) + random.choice(pluralIntransitive) + " " + Prep.generate(Prep(), preposition)
 
 class LVerb:
@@ -221,183 +247,10 @@ class Prep:
             elif rule == "2":
                 return ""
 
-# class Subject:
-#     def generate(self):
-#         ss = Determiner.generate(Determiner()) + " " + Adjective.generate(Adjective()) + " " + Noun.generate(Noun())
-#         # print ss
-#         return ss
-#
-#
-# class PluralSubject:
-#     def generate(self):
-#         psubject_rules = ["1", "2"]
-#         psubject_rule = random.choice(psubject_rules)
-#         if psubject_rule == "1":
-#             return Adjective.generate(Adjective()) + PluralNoun.generate(PluralNoun())
-#         elif psubject_rule == "2":
-#             return PluralDeterminer.generate(PluralDeterminer()) + Adjective.generate(
-#                 Adjective()) + PluralNoun.generate(PluralNoun())
-#
-#
-# class ExistentialSubject:
-#     def generate(self):
-#         esubject_rules = ["1", "2"]
-#         esubject_rule = random.choice(esubject_rules)
-#         if esubject_rule == "1":
-#             return random.choice(["here",
-#                                   "there"]) + " " + random.choice(["is", TransVerb.generate(TransVerb())]) + " " + \
-#                    Subject.generate(Subject()) + " that"
-#         elif esubject_rule == "2":
-#             return random.choice(["here",
-#                                   "there"]) + " " + random.choice(["are", TransVerb.generate(TransVerb())]) + " " + \
-#                    PluralSubject.generate(PluralSubject()) + " that"
-#
-#
-# class Noun:
-#     def generate(self):
-#         rules = ["n", "nn"]
-#         rule = random.choice(rules)
-#         if rule == "n":
-#             ss = random.choice(nouns)
-#             # print ss + " thats a noun"
-#             return ss
-#         elif rule == "nn":
-#             return random.choice(nouns) + " " + random.choice(nouns)
-#
-#
-# class PluralNoun:
-#     def generate(self):
-#         rules = ["p", "np"]
-#         rule = random.choice(rules)
-#         if rule == "p":
-#             return random.choice(pluralNouns)
-#         elif rule == "np":
-#             return random.choice(nouns) + " " + random.choice(pluralNouns)
-#
-#
-# # class V:
-# #     def generate(self, preposition):
-# #         rules = ["TV", "IV", "LV", "HV_V"]
-# #         rule = random.choice(rules)
-# #         preposition = random.choice([True, False])
-# #         pstr = ""
-# #         if preposition:
-# #             pstr = " " + Preposition.generate(Preposition())
-# #         if (rule == "TV"):
-# #             return TransVerb.generate(TransVerb()) + pstr
-# #         elif (rule == "IV"):
-# #             return IntransVerb.generate(IntransVerb()) + pstr
-# #         elif (rule == "LV"):
-# #             return LinkVerbs.generate(LinkVerbs()) + pstr
-# #         elif (rule == "HV_V"):
-# #             rules = ["TV", "IV", "LV"]
-# #             ruleHV = random.choice(rules)
-# #             if (ruleHV == "TV"):
-# #                 return HelpVerb.generate(HelpVerb()) + " " + TransVerb.generate(TransVerb()) + pstr
-# #             elif (ruleHV == "IV"):
-# #                 return HelpVerb.generate(HelpVerb()) + " " + IntransVerb.generate(IntransVerb()) + pstr
-# #             elif (ruleHV == "LV"):
-# #                 return HelpVerb.generate(HelpVerb()) + " " + LinkVerbs.generate(LinkVerbs()) + pstr
-#
-#
-# class TransVerb:
-#     def generate(self):
-#         return Adverbs.generate(Adverbs()) + " " + random.choice(transitiveVerbs)
-#
-#
-# class IntransVerb:
-#     def generate(self):
-#         rules = ["Adverb", "iverb"]
-#         rule = random.choice(rules)
-#         if (rule == "Adverb"):
-#             return Adverbs.generate(Adverbs()) + " " + random.choice(intransitiveVerbs)
-#         if (rule == "iverb"):
-#             return random.choice(intransitiveVerbs) + " " + Adverbs.generate(Adverbs())
-#
-#
-# class LinkVerbs:
-#     def generate(self):
-#         rules = ["1", "2"]
-#         rule = random.choice(rules)
-#         if (rule == "1"):
-#             return Adverbs.generate(Adverbs()) + " " + random.choice(linkingVerbs) + " " + Adjective.generate(Adjective())
-#         elif rule == "2":
-#             return random.choice(linkingVerbs) + " " + Adverbs.generate(Adverbs()) + " " + Adjective.generate(Adjective())
-#
-#
-# class HelpVerb:
-#     def generate(self):
-#         return random.choice(helpingVerbs)
-#
-#
-# class Adverbs:
-#     def generate(self):
-#         rules = ["1", "2"]
-#         rule = random.choice(rules)
-#         if rule == "1":
-#             return random.choice(adverbs)
-#         elif rule == "2":
-#             return ""
-#
-#
-# class Preposition:
-#     def generate(self):
-#         rules = ["1", "2"]
-#         rule = random.choice(rules)
-#         if rule == "1":
-#             return random.choice(prepositions)
-#         elif rule == "2":
-#             return ""
-#
-#
-# class Adjective:
-#     def generate(self):
-#         rules = ["1", "2", "3", "4", "5"]
-#         rule = random.choice(rules)
-#         if rule == "1":
-#             return random.choice(adjectives)
-#         elif rule == "2":
-#             return random.choice(adverbs) + " " + random.choice(adjectives)
-#         elif rule == "3":
-#             return random.choice(adjectives) + " " + random.choice(adjectives)
-#         elif rule == "4":
-#             return random.choice(adverbs) + " " + random.choice(adjectives) + " " + random.choice(adjectives)
-#         elif rule == "5":
-#             return ""
-#
-#
-# class Determiner:
-#     def generate(self):
-#         ss = random.choice(determiners)
-#         # print "DET IS: " + ss
-#         return ss
-#
-#
-# class PluralDeterminer:
-#     def generate(self):
-#         return random.choice(pluralDeterminers)
-#
-#
-# # class O:
-# #     def generate(self, preposition):
-# #         if preposition == True:
-# #             return Object.generate(Object())
-# #         else:
-# #             rules = ["1", "2"]
-# #             rule = random.choice(rules)
-# #             if rule == "1":
-# #                 return Object.generate(Object())
-# #             elif rule == "2":
-# #                 # return " "
-#
-# class Object:
-#     def generate(self):
-#         rules = ["1", "2"]
-#         rule = random.choice(rules)
-#         if rule == "1":
-#             return Subject.generate(Subject())
-#         elif rule == "2":
-#             return PluralSubject.generate(PluralSubject())
+
+
+def upperfirst(x):
+    return x[0].upper() + x[1:]
 
 
 def main():
@@ -507,30 +360,12 @@ def main():
     # transitiveVerbs = [line.rstrip('\n') for line in open('transitiveVerbs.txt')]
 
 
+    sentence = upperfirst(Sentence.generate(Sentence()))
+    sentence = sentence[:-1]
+    sentence = sentence + "."
+    # the first letter is capatilized and a period is added to the end. 
+    print sentence
 
-
-    # print pluralNouns
-
-    # picking = True
-    # listsDictionary = {"helpingVerbs": helpingVerbs, "intransitiveVerbs": intransitiveVerbs,
-    #                    "transitiveVerbs": transitiveVerbs,
-    #                    "adjectives": adjectives, "adverbs": adverbs, "determiners": determiners,
-    #                    "linkingVerbs": linkingVerbs,
-    #                    "nouns": nouns, "pluralDeterminers": pluralDeterminers, "pluralNouns": pluralNouns,
-    #                    "prepositions": prepositions,
-    #                    }
-
-    print Sentence.generate(Sentence())
-    # while(picking):
-    #     name = raw_input("what do you want to pick out of? (write quit to quit)\n-> ")
-    #     if (name == 'quit'):
-    #         picking = False
-    #         continue
-    #     print "name is: " + name
-    #     try:
-    #         print("word is: " + random.choice(listsDictionary[name]))
-    #     except NameError:
-    #         print "list errored"
 
 
 if __name__ == "__main__":
