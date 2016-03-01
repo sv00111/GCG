@@ -1,6 +1,11 @@
+import os
 import sys
 import random
+import curses
+import termios
+
 import string
+from signal import pause
 
 adjectives = []
 adverbs = []
@@ -97,7 +102,7 @@ class Subject:
         elif (rule == "3"):
             return random.choice(determiners) + " " + Noun.generate(Noun())
         elif (rule == "4"):
-            return random.choice(determiners) + " " + Adjective.generate(Adjective()) + Adjective.generate(Adjective()) + " " + Noun.generate(Noun())
+            return random.choice(determiners) + " " + Adjective.generate(Adjective()) + Adjective.generate(Adjective()) + Noun.generate(Noun())
 
         # //det+adverb+adjective+adjective+Noun | det+Noun | det+adverb+adjective+Noun
 
@@ -360,11 +365,59 @@ def main():
     # transitiveVerbs = [line.rstrip('\n') for line in open('transitiveVerbs.txt')]
 
 
-    sentence = upperfirst(Sentence.generate(Sentence()))
-    sentence = sentence[:-1]
-    sentence = sentence + "."
-    # the first letter is capatilized and a period is added to the end. 
-    print sentence
+    quit = False
+    while (quit != True):
+
+        sentence = upperfirst(Sentence.generate(Sentence()))
+        sentence = sentence[:-1]
+        if sentence.endswith(" "):
+            sentence = sentence[:-1]
+        # if sentence.endswith(" "):
+        #     sentence[:-1]
+        sentence = sentence + "."
+        # the first letter is capatilized and a period is added to the end.
+        # print sentence
+
+        sentenceList = sentence.split()
+
+        while (len(sentenceList) != 0):
+            #wait till user presses a key, if key is pressed then continue else wait.
+            #if the key pressed = q then quit loop else print to screen.
+            letter = getch()
+            # letter = msvcrt.getch()
+            if letter == 'q' or letter == 'Q':
+                quit = True
+            if(quit == True):
+                break
+            else:
+                temp = sentenceList.pop(0)
+                sys.stdout.write(temp + " ")
+
+
+
+
+def getch():
+    import fcntl
+    fd = sys.stdin.fileno()
+
+    oldterm = termios.tcgetattr(fd)
+    newattr = termios.tcgetattr(fd)
+    newattr[3] = newattr[3] & ~termios.ICANON & ~termios.ECHO
+    termios.tcsetattr(fd, termios.TCSANOW, newattr)
+
+    oldflags = fcntl.fcntl(fd, fcntl.F_GETFL)
+    fcntl.fcntl(fd, fcntl.F_SETFL, oldflags | os.O_NONBLOCK)
+    try:
+        while 1:
+            try:
+                c = sys.stdin.read(1)
+                break
+            except IOError: pass
+    finally:
+        termios.tcsetattr(fd, termios.TCSAFLUSH, oldterm)
+        fcntl.fcntl(fd, fcntl.F_SETFL, oldflags)
+    return c
+
 
 
 
