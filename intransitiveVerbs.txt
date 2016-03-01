@@ -36,7 +36,7 @@ sneezes
 stands
 stays
 swims
-vanishs
+vanishes
 vomits
 wakes
 waits
