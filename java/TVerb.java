@@ -1,10 +1,12 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Random;
 
-public class Subject {
+public class TVerb {
 
 	Adjective adj = new Adjective();
 	Adverb adv = new Adverb();
 	Noun noun = new Noun();
+	Preposition prep = new Preposition();
 
 	Random rand = new Random();
 
@@ -15,7 +17,8 @@ public class Subject {
 	}
 
 	public String generate() {
-		String str = pick(GCG.detList) + adv.generate() + adj.generate() + adj.generate() + " " + noun.generate();
+		String str = adv.generate() + " " + pick(GCG.tverbList) + prep.generate();
+		GCG.objectRequired = true;
 		return str;
 	}
 

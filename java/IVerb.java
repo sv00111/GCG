@@ -1,7 +1,11 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Determiner {
+public class IVerb {
+
+	Adjective adj = new Adjective();
+	Adverb adv = new Adverb();
+
 	Random rand = new Random();
 
 
@@ -11,8 +15,9 @@ public class Determiner {
 	}
 
 	public String generate() {
-		String str = pick(GCG.detList);
+		String str = adv.generate() + " " + pick(GCG.iverbList) + adj.generate();
 		return str;
-
 	}
+
 }
+

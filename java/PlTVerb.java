@@ -1,9 +1,11 @@
 import java.util.ArrayList;
 import java.util.Random;
 
-public class Determiner {
+public class PlTVerb {
 	Random rand = new Random();
 
+	Adverb adv = new Adverb();
+	Preposition prep = new Preposition();
 
 	public String pick(ArrayList<String> words)  {
 		String word = words.get(rand.nextInt(words.size()));
@@ -11,7 +13,8 @@ public class Determiner {
 	}
 
 	public String generate() {
-		String str = pick(GCG.detList);
+		String str = adv.generate() + " " + pick(GCG.pltverbList) + prep.generate();
+		GCG.objectRequired = true;
 		return str;
 
 	}

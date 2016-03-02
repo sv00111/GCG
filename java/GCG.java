@@ -1,5 +1,10 @@
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.*;
 import java.util.*;
+
+import javax.swing.JFrame;
+import javax.swing.JTextField;
 
 public class GCG {
 	public static ArrayList<String> adjList;
@@ -18,7 +23,65 @@ public class GCG {
 	public static ArrayList<String> prepList;
 	public static ArrayList<String> tverbList;
 
+	public static boolean objectRequired = false;
+	public static boolean objectNotAllowed = false;
+
+	public static String str = null;
+
+
 	public static void main(String[] args) {
+		createJFrame();
+		loadLists();
+		generateSentance();
+	}
+
+	public static void createJFrame() {
+		JTextField textField = new JTextField();
+		textField.addKeyListener(new MKeyListener());
+		JFrame jframe = new JFrame();
+		jframe.add(textField);
+		jframe.setSize(400, 50);
+		jframe.setVisible(true);
+	}
+
+	public static void generateSentance() {
+		ArrayList<String> rules = new ArrayList<>(Arrays.asList("S", "PS", "EXS", "PEXS"));
+
+		Random rand = new Random();
+
+		Subject subject = new Subject();
+		PlSubject plSubject = new PlSubject();
+		ExSubject exSubject = new ExSubject();
+		PlExSubject plExSubject = new PlExSubject();
+		Verb verb = new Verb();
+		PlVerb plVerb = new PlVerb();
+		Obj obj = new Obj();
+
+		String rule = rules.get(rand.nextInt(rules.size()));
+		switch(rule) {
+		case "S":
+			str = subject.generate() + " " + verb.generate();
+			if((rand.nextInt() % 2 == 0 && !objectNotAllowed) || objectRequired ) 
+				str += (" " + obj.generate());
+			break;
+		case "PS":
+			str = plSubject.generate() + " " + plVerb.generate();
+			break;
+		case "EXS":
+			str = exSubject.generate() + " " + verb.generate();
+			break;
+		case "PEXS":
+			str = plExSubject.generate() +  " " + plVerb.generate();
+			break;
+		}
+
+		objectNotAllowed = false;
+		objectRequired = false;
+	}
+
+
+
+	public static void loadLists() {
 		adjList = loadDict("adjectives.txt");
 		advList = loadDict("adverbs.txt");
 		nounList = loadDict("nouns.txt");
@@ -34,39 +97,6 @@ public class GCG {
 		pltverbList = loadDict("pluralTransitiveVerbs.txt");
 		prepList = loadDict("prepositions.txt");
 		tverbList = loadDict("transitiveVerbs.txt");
-		
-		//ArrayList<String> rules = new ArrayList<>(Arrays.asList("S", "PS", "EXS", "PEXS"));
-		//Random rand = new Random();
-		Determiner det = new Determiner();
-		Adverb adv = new Adverb();
-		Adjective adj = new Adjective();
-		Noun noun = new Noun();
-		PlSubject plSubject = new PlSubject();
-		//String word = rules.get(rand.nextInt(rules.size()));
-
-		String rule = "PS";
-		String str = null;
-		switch(rule) {
-			case "S":
-				//det+Adverb+Adjective+Adjective+Noun
-				str = det.generate() + " " + adv.generate() + " " + adj.generate() + " " + adj.generate() + " " + noun.generate(); 
-				break;
-			case "PS":
-				//Adjective + PlNoun | pdet + Adjective + PlNoun
-				str = plSubject.generate();
-				//str = pick(nouns) + " " + pick(noun);
-				break;
-			case "EXS":
-				//(“here” / “there”) + (“is” / Verb) + Subject + “that” 
-				// | (“here” / “there”) + (“are” / Verb) + PlSubject + “that”
-				System.out.println("EXS");
-				break;
-			case "PEXS":
-				//PlExSubject+PlVerb+[Object]
-				System.out.println("PEXS");
-				break;
-		}
-		System.out.println(str);
 	}
 
 	private static ArrayList<String> loadDict (String filename) {
@@ -84,5 +114,23 @@ public class GCG {
 		}
 		scan.close();
 		return list;
+	}
+}
+
+
+class MKeyListener extends KeyAdapter {
+	int count = 0;
+	@Override
+	public void keyPressed(KeyEvent event) {
+		String[] split = GCG.str.split("\\s+");
+
+		if(count == (split.length -1)) {
+			System.out.print(split[count] + ". ");
+			GCG.generateSentance();
+			count = 0;
+		} else {
+			System.out.print(split[count] + " ");
+			count++;
+		}
 	}
 }
