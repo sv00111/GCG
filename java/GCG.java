@@ -122,6 +122,9 @@ class MKeyListener extends KeyAdapter {
 	int count = 0;
 	@Override
 	public void keyPressed(KeyEvent event) {
+		if(event.getKeyCode() == 'Q') {
+			System.exit(1);;
+		}
 		String[] split = GCG.str.split("\\s+");
 
 		if(count == (split.length -1)) {
