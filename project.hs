@@ -5,6 +5,8 @@ import System.Directory
 import System.Random
 import Data.Char
 
+-- RULE SETS ---------------------------------------------------
+
 r_Sentence = ["S+V","PS+PV","ES+V","PES+PV"]
 r_Object = ["S","PS"]
 r_Verb = ["TV","IV",{-"LV",-}"hv+TV","hv+IV"]
@@ -26,8 +28,8 @@ r_Adjective = ["adj", ""]
 r_Prep = ["prep", ""]
 
 -- MAIN --------------------------------------------------------
-test :: IO ()
-test = do 
+
+main = do 
     -- BUILD WORD MASTER LIST
     words <- buildWordSet
     -- GENERATE SENTENCE
